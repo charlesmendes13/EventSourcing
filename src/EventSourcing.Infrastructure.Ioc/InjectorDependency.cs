@@ -20,7 +20,7 @@ namespace EventSourcing.Infrastructure.Ioc
             // Infrastructure
 
             services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
-            services.AddTransient<IEventStore, InMemoryEventStore>();
+            services.AddSingleton<IEventStore, InMemoryEventStore>();
         }
     }
 }

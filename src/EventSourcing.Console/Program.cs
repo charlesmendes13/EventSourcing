@@ -41,9 +41,9 @@ namespace Program
                 var repository = services.GetRequiredService<IShoppingCartRepository>();
 
                 // Criando um novo carrinho e adicionando itens
-                var shoppingCart = new ShoppingCart(Guid.NewGuid(), "Alice");
-                shoppingCart.AddItem(Guid.NewGuid(), "Product A", 10.99m);
-                shoppingCart.AddItem(Guid.NewGuid(), "Product B", 20.49m);
+                var shoppingCart = new ShoppingCart(Guid.NewGuid(), "Fulano de Tal");
+                shoppingCart.AddItem(Guid.NewGuid(), "Apple", 10.99m);
+                shoppingCart.AddItem(Guid.NewGuid(), "Orange", 20.49m);
 
                 // Salvando o carrinho no repositório
                 repository.Save(shoppingCart);
@@ -54,6 +54,7 @@ namespace Program
                 // Verificando se o carrinho foi recuperado corretamente
                 Console.WriteLine($"Customer: {retrievedCart.CustomerName}");
                 Console.WriteLine("==== Items ====");
+
                 foreach (var item in retrievedCart.Items)
                 {
                     Console.WriteLine($"ItemName: {item}");
