@@ -1,4 +1,4 @@
-﻿namespace EventSourcing.Domain.AggregateModels
+﻿namespace EventSourcing.Domain.AggregateModels.ShoppingCartAggregate
 {
     public interface IShoppingCartRepository
     {

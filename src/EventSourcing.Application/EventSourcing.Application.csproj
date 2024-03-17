@@ -3,18 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EventSourcing.Domain.Core\EventSourcing.Domain.Core.csproj" />
     <ProjectReference Include="..\EventSourcing.Domain\EventSourcing.Domain.csproj" />
     <ProjectReference Include="..\EventSourcing.Infrastructure.Data\EventSourcing.Infrastructure.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CommandHandlers\" />
-    <Folder Include="QueryHandlers\" />
   </ItemGroup>
 
 </Project>

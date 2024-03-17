@@ -1,7 +1,7 @@
 ﻿using EventSourcing.Domain.Contracts.Events;
 using EventSourcing.Domain.Core.Common;
 
-namespace EventSourcing.Domain.AggregateModels
+namespace EventSourcing.Domain.AggregateModels.ShoppingCartAggregate
 {
     public class ShoppingCart : AggregateRoot
     {
@@ -13,12 +13,12 @@ namespace EventSourcing.Domain.AggregateModels
 
         public ShoppingCart(Guid id, string customerName)
         {
-            ApplyChange(new ShoppingCartCreatedEvent { ShoppingCartId = id, CustomerName = customerName });
+            ApplyChange(new ShoppingCartCreatedEvent(id, customerName));
         }
 
-        public void AddItem(Guid id, string itemName, decimal price)
+        public void AddItem(Guid id, string itemName)
         {
-            ApplyChange(new ItemAddedEvent { ItemId = id, ItemName = itemName, Price = price });
+            ApplyChange(new ItemAddedEvent(id, itemName));
         }
 
         protected override void Apply(Event @event)

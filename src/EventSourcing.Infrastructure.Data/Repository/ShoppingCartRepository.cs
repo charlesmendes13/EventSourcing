@@ -1,4 +1,4 @@
-﻿using EventSourcing.Domain.AggregateModels;
+﻿using EventSourcing.Domain.AggregateModels.ShoppingCartAggregate;
 using EventSourcing.Domain.Core.Common;
 
 namespace EventSourcing.Infrastructure.Data.Repository

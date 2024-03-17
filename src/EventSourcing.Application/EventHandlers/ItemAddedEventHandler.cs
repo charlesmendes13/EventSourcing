@@ -1,14 +1,15 @@
 ﻿using EventSourcing.Domain.Contracts.Events;
-using EventSourcing.Domain.Core.Common;
+using MediatR;
 
 namespace EventSourcing.Application.EventHandlers
 {
     public class ItemAddedEventHandler 
-        : IEventHandler<ItemAddedEvent>
+        : INotificationHandler<ItemAddedEvent>
     {
-        public Task Handle(ItemAddedEvent @event)
+        public ItemAddedEventHandler() { }
+
+        public Task Handle(ItemAddedEvent @event, CancellationToken cancellationToken)
         {
-            // TODO aqui é onde será realizada a integração por AMPQ (RabbitMQ) para a base de dados de leitura.   
             return Task.CompletedTask;
         }
     }

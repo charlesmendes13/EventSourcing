@@ -1,14 +1,15 @@
 ﻿using EventSourcing.Domain.Contracts.Events;
-using EventSourcing.Domain.Core.Common;
+using MediatR;
 
 namespace EventSourcing.Application.EventHandlers
 {
     public class ShoppingCartCreatedEventHandler 
-        : IEventHandler<ShoppingCartCreatedEvent>
-    {          
-        public Task Handle(ShoppingCartCreatedEvent @event)
+        : INotificationHandler<ShoppingCartCreatedEvent>
+    {
+        public ShoppingCartCreatedEventHandler() { }
+
+        public Task Handle(ShoppingCartCreatedEvent @event, CancellationToken cancellationToken)
         {
-            // TODO aqui é onde será realizada a integração por AMPQ (RabbitMQ) para a base de dados de leitura.   
             return Task.CompletedTask;
         }
     }

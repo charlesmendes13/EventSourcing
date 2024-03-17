@@ -14,13 +14,13 @@ namespace EventSourcing.Infrastructure.Ioc
         {
             // Application
 
-            services.AddTransient<IEventHandler<ShoppingCartCreatedEvent>, ShoppingCartCreatedEventHandler>();
-            services.AddTransient<IEventHandler<ItemAddedEvent>, ItemAddedEventHandler>();
+            services.AddScoped<IEventHandler<ShoppingCartCreatedEvent>, ShoppingCartCreatedEventHandler>();
+            services.AddScoped<IEventHandler<ItemAddedEvent>, ItemAddedEventHandler>();
 
             // Infrastructure
 
             services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
-            services.AddSingleton<IEventStore, InMemoryEventStore>();
+            services.AddTransient<IEventStore, SQLServerEventStore>();
         }
     }
 }

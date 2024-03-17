@@ -13,7 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EventSourcing.Infrastructure.Ioc\EventSourcing.Infrastructure.Ioc.csproj" />
+    <ProjectReference Include="..\EventSourcing.Application\EventSourcing.Application.csproj" />
+    <ProjectReference Include="..\EventSourcing.Domain.Core\EventSourcing.Domain.Core.csproj" />
+    <ProjectReference Include="..\EventSourcing.Domain\EventSourcing.Domain.csproj" />
+    <ProjectReference Include="..\EventSourcing.Infrastructure.Data\EventSourcing.Infrastructure.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
