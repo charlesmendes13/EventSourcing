@@ -27,7 +27,7 @@ namespace EventSourcing.Infrastructure.Data.EventStores
             {
                 connection.Open();
 
-                var query = "SELECT Assembly, Type, EventData FROM Events WHERE AggregateId = @AggregateId ORDER BY Timestamp";
+                var query = "SELECT Assembly, Type, Data FROM Events WHERE AggregateId = @AggregateId ORDER BY Timestamp";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@AggregateId", aggregateId);
@@ -61,13 +61,13 @@ namespace EventSourcing.Infrastructure.Data.EventStores
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandType = CommandType.Text;
-                        command.CommandText = "INSERT INTO Events (AggregateId, Assembly, Type, Event, EventData, Timestamp) VALUES (@AggregateId, @Assembly, @Type, @Event, @EventData, @Timestamp)";                        
+                        command.CommandText = "INSERT INTO Events (AggregateId, Assembly, Type, Event, Data, Timestamp) VALUES (@AggregateId, @Assembly, @Type, @Event, @EventData, @Timestamp)";                        
 
                         command.Parameters.AddWithValue("@AggregateId", aggregateId);                        
                         command.Parameters.AddWithValue("@Assembly", Path.GetFileNameWithoutExtension(assembly));
                         command.Parameters.AddWithValue("@Type", type.FullName);
                         command.Parameters.AddWithValue("@Event", type.Name);
-                        command.Parameters.AddWithValue("@EventData", JsonConvert.SerializeObject(@event));
+                        command.Parameters.AddWithValue("@Data", JsonConvert.SerializeObject(@event));
                         command.Parameters.AddWithValue("@Timestamp", DateTime.UtcNow);
 
                         command.ExecuteNonQuery();
