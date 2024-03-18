@@ -4,7 +4,6 @@ using EventSourcing.Domain.Contracts.Events;
 using EventSourcing.Domain.Contracts.Commands;
 using EventSourcing.Domain.Core.Common;
 using EventSourcing.Infrastructure.Data.EventStores;
-using EventSourcing.Infrastructure.Data.Repository;
 using EventSourcing.Domain.AggregateModels.ShoppingCartAggregate;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using MediatR;
 using EventSourcing.Domain.Contracts.Queries;
 using EventSourcing.Application.QueryHandlers;
+using EventSourcing.Infrastructure.Data.Repository;
 
 namespace ConsoleApp
 {
@@ -65,8 +65,8 @@ namespace ConsoleApp
 
                // Infrastructure
 
-               services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
-               services.AddTransient<IEventStore, SQLServerEventStore>();
+               services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+               services.AddTransient<IEventStore, EventStore>();
 
                services.AddHostedService<ConsoleApp>();
            });

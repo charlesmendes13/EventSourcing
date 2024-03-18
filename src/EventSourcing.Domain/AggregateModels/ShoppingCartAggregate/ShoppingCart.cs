@@ -5,11 +5,10 @@ namespace EventSourcing.Domain.AggregateModels.ShoppingCartAggregate
 {
     public class ShoppingCart : AggregateRoot
     {
-        public Guid Id { get; private set; }
         public string CustomerName { get; private set; }
         public List<string> Items { get; private set; } = new List<string>();
 
-        protected ShoppingCart() { }
+        public ShoppingCart() { }
 
         public ShoppingCart(Guid id, string customerName)
         {

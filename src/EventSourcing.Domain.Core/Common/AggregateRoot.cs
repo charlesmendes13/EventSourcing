@@ -2,6 +2,7 @@
 {
     public abstract class AggregateRoot
     {
+        public Guid Id { get; protected set; }
         private readonly List<Event> _changes = new List<Event>();
 
         public void ApplyChange(Event @event)

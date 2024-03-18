@@ -49,9 +49,9 @@ namespace ConsoleApp
                             _logger.LogInformation($"ItemName: {item}");
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        throw;
+                        _logger.LogError(ex.Message);
                     }
                     finally
                     {
