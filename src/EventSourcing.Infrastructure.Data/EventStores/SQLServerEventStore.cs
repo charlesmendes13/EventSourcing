@@ -35,7 +35,7 @@ namespace EventSourcing.Infrastructure.Data.EventStores
                     {
                         while (reader.Read())
                         {
-                            var eventType = Type.GetType($"{reader.GetString(0)},EventSourcing.Domain");
+                            var eventType = Type.GetType($"EventSourcing.Domain.Contracts.Events.{reader.GetString(0)},EventSourcing.Domain");
                             var eventData = JsonConvert.DeserializeObject(reader.GetString(1), eventType);
 
                             events.Add((Event)eventData);
@@ -61,7 +61,7 @@ namespace EventSourcing.Infrastructure.Data.EventStores
                         command.CommandText = "INSERT INTO Events (AggregateId, EventType, EventData, Timestamp) VALUES (@AggregateId, @EventType, @EventData, @Timestamp)";
 
                         command.Parameters.AddWithValue("@AggregateId", aggregateId);
-                        command.Parameters.AddWithValue("@EventType", @event.GetType().FullName);
+                        command.Parameters.AddWithValue("@EventType", @event.GetType().Name);
                         command.Parameters.AddWithValue("@EventData", JsonConvert.SerializeObject(@event));
                         command.Parameters.AddWithValue("@Timestamp", DateTime.UtcNow);
 
