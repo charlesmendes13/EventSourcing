@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 
 namespace EventSourcing.Infrastructure.Data.EventStores
 {
@@ -27,7 +28,7 @@ namespace EventSourcing.Infrastructure.Data.EventStores
             {
                 connection.Open();
 
-                var query = "SELECT EventType, EventData FROM Events WHERE AggregateId = @AggregateId ORDER BY Timestamp";
+                var query = "SELECT Assembly, Type, EventData FROM Events WHERE AggregateId = @AggregateId ORDER BY Timestamp";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@AggregateId", aggregateId);
@@ -35,8 +36,8 @@ namespace EventSourcing.Infrastructure.Data.EventStores
                     {
                         while (reader.Read())
                         {
-                            var eventType = Type.GetType($"EventSourcing.Domain.Contracts.Events.{reader.GetString(0)},EventSourcing.Domain");
-                            var eventData = JsonConvert.DeserializeObject(reader.GetString(1), eventType);
+                            var eventType = Type.GetType($"{reader.GetString(1)},{reader.GetString(0)}");
+                            var eventData = JsonConvert.DeserializeObject(reader.GetString(2), eventType);
 
                             events.Add((Event)eventData);
                         }
@@ -55,13 +56,18 @@ namespace EventSourcing.Infrastructure.Data.EventStores
 
                 foreach (var @event in events)
                 {
+                    var type = @event.GetType();
+                    var assembly = type.Assembly.Location;
+
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandType = CommandType.Text;
-                        command.CommandText = "INSERT INTO Events (AggregateId, EventType, EventData, Timestamp) VALUES (@AggregateId, @EventType, @EventData, @Timestamp)";
+                        command.CommandText = "INSERT INTO Events (AggregateId, Assembly, Type, Event, EventData, Timestamp) VALUES (@AggregateId, @Assembly, @Type, @Event, @EventData, @Timestamp)";                        
 
-                        command.Parameters.AddWithValue("@AggregateId", aggregateId);
-                        command.Parameters.AddWithValue("@EventType", @event.GetType().Name);
+                        command.Parameters.AddWithValue("@AggregateId", aggregateId);                        
+                        command.Parameters.AddWithValue("@Assembly", Path.GetFileNameWithoutExtension(assembly));
+                        command.Parameters.AddWithValue("@Type", type.FullName);
+                        command.Parameters.AddWithValue("@Event", type.Name);
                         command.Parameters.AddWithValue("@EventData", JsonConvert.SerializeObject(@event));
                         command.Parameters.AddWithValue("@Timestamp", DateTime.UtcNow);
 
