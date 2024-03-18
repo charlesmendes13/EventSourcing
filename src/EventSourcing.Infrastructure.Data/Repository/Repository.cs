@@ -2,7 +2,7 @@
 
 namespace EventSourcing.Infrastructure.Data.Repository
 {
-    public class Repository<T> : IRepository<T> where T : AggregateRoot, new()
+    public class Repository<T> : IRepository<T> where T : AggregateRoot
     {
         private readonly IEventStore _eventStore;
 
@@ -14,7 +14,7 @@ namespace EventSourcing.Infrastructure.Data.Repository
         public T GetById(Guid id)
         {
             var events = _eventStore.GetEvents(id);
-            var aggregate = new T();
+            var aggregate = Activator.CreateInstance(typeof(T), nonPublic: true) as T; 
 
             foreach (var @event in events)
             {

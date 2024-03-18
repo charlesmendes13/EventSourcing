@@ -8,7 +8,7 @@ namespace EventSourcing.Domain.AggregateModels.ShoppingCartAggregate
         public string CustomerName { get; private set; }
         public List<string> Items { get; private set; } = new List<string>();
 
-        public ShoppingCart() { }
+        protected ShoppingCart() { }
 
         public ShoppingCart(Guid id, string customerName)
         {
