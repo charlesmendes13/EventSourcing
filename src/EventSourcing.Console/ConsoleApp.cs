@@ -1,8 +1,8 @@
 ﻿using EventSourcing.Domain.Contracts.Commands;
 using EventSourcing.Domain.Contracts.Queries;
-using MediatR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MediatR;
 
 namespace ConsoleApp
 {

@@ -1,18 +1,8 @@
-﻿using EventSourcing.Application.EventHandlers;
-using EventSourcing.Application.CommandHandlers;
-using EventSourcing.Domain.Contracts.Events;
-using EventSourcing.Domain.Contracts.Commands;
-using EventSourcing.Domain.Core.Common;
-using EventSourcing.Infrastructure.Data.EventStores;
-using EventSourcing.Domain.AggregateModels.ShoppingCartAggregate;
+﻿using EventSourcing.Infrastructure.IoC;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MediatR;
-using EventSourcing.Domain.Contracts.Queries;
-using EventSourcing.Application.QueryHandlers;
-using EventSourcing.Infrastructure.Data.Repository;
 
 namespace ConsoleApp
 {
@@ -51,22 +41,9 @@ namespace ConsoleApp
 
            }).ConfigureServices((services) =>
            {
-               // MediatR
+               // IoC
 
-               services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(Program).Assembly));
-
-               // Application
-
-               services.AddTransient<IRequestHandler<GetShoppingCartQuery, ShoppingCart>, GetShoppingCartQueryHandler>();
-               services.AddTransient<IRequestHandler<CreateShoppingCartCommand, ShoppingCart>, CreateShoppingCartCommandHandler>();
-          
-               services.AddScoped<INotificationHandler<ShoppingCartCreatedEvent>, ShoppingCartCreatedEventHandler>();
-               services.AddScoped<INotificationHandler<ItemAddedEvent>, ItemAddedEventHandler>();
-
-               // Infrastructure
-
-               services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-               services.AddTransient<IEventStore, EventStore>();
+               InjectorDependency.Register(services);
 
                services.AddHostedService<ConsoleApp>();
            });
