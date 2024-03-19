@@ -8,7 +8,7 @@
         public Event() 
         {
             Id = Guid.NewGuid();
-            Timestamp = DateTime.UtcNow;
+            Timestamp = DateTime.Now;
         }
     }
 }

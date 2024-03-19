@@ -34,7 +34,8 @@ namespace ConsoleApp
                             new List<string>
                             {
                                 "Apple",
-                                "Orange"
+                                "Orange",
+                                "Strawberry"
                             }));
 
                         // Recuperando o carrinho do repositório

@@ -27,7 +27,7 @@ namespace EventSourcing.Infrastructure.Data.EventStores
             {
                 connection.Open();
 
-                var query = "SELECT Assembly, Type, Data FROM Events WHERE AggregateId = @AggregateId ORDER BY Timestamp";
+                var query = "SELECT Class, Dll, Data FROM Event WHERE AggregateId = @AggregateId ORDER BY Timestamp DESC";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@AggregateId", aggregateId);
@@ -35,7 +35,7 @@ namespace EventSourcing.Infrastructure.Data.EventStores
                     {
                         while (reader.Read())
                         {
-                            var eventType = Type.GetType($"{reader.GetString(1)},{reader.GetString(0)}");
+                            var eventType = Type.GetType($"{reader.GetString(0)},{reader.GetString(1)}");
                             var eventData = JsonConvert.DeserializeObject(reader.GetString(2), eventType);
 
                             events.Add((Event)eventData);
@@ -61,14 +61,14 @@ namespace EventSourcing.Infrastructure.Data.EventStores
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandType = CommandType.Text;
-                        command.CommandText = "INSERT INTO Events (AggregateId, Assembly, Type, Event, Data, Timestamp) VALUES (@AggregateId, @Assembly, @Type, @Event, @EventData, @Timestamp)";                        
+                        command.CommandText = "INSERT INTO Event (AggregateId, Class, Dll, Event, Data, Timestamp) VALUES (@AggregateId, @Class, @Dll, @Event, @Data, @Timestamp)";                        
 
                         command.Parameters.AddWithValue("@AggregateId", aggregateId);                        
-                        command.Parameters.AddWithValue("@Assembly", Path.GetFileNameWithoutExtension(assembly));
-                        command.Parameters.AddWithValue("@Type", type.FullName);
+                        command.Parameters.AddWithValue("@Class", type.FullName);
+                        command.Parameters.AddWithValue("@Dll", Path.GetFileNameWithoutExtension(assembly));
                         command.Parameters.AddWithValue("@Event", type.Name);
                         command.Parameters.AddWithValue("@Data", JsonConvert.SerializeObject(@event));
-                        command.Parameters.AddWithValue("@Timestamp", DateTime.UtcNow);
+                        command.Parameters.AddWithValue("@Timestamp", @event.Timestamp);
 
                         command.ExecuteNonQuery();
                     }
