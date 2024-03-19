@@ -31,8 +31,8 @@ namespace EventSourcing.Infrastructure.IoC
 
             // Infrastructure
 
-            container.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            container.AddTransient<IEventStore, EventStore>();
+            container.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
+            container.AddTransient<IEventStore, SqlServerEventStore>();
         }
     }
 }

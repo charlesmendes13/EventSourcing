@@ -1,15 +1,14 @@
 ﻿using EventSourcing.Domain.AggregateModels.ShoppingCartAggregate;
 using EventSourcing.Domain.Contracts.Commands;
-using EventSourcing.Domain.Core.Common;
 using MediatR;
 
 namespace EventSourcing.Application.CommandHandlers
 {
     public class CreateShoppingCartCommandHandler : IRequestHandler<CreateShoppingCartCommand, ShoppingCart>
     {
-        private readonly IRepository<ShoppingCart> _repository;
+        private readonly IShoppingCartRepository _repository;
 
-        public CreateShoppingCartCommandHandler(IRepository<ShoppingCart> repository)
+        public CreateShoppingCartCommandHandler(IShoppingCartRepository repository)
         {
             _repository = repository;
         }

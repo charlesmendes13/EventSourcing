@@ -7,12 +7,12 @@ using System.Data.SqlClient;
 
 namespace EventSourcing.Infrastructure.Data.EventStores
 {
-    public class EventStore : IEventStore
+    public class SqlServerEventStore : IEventStore
     {
         private readonly IMediator _mediator;
         private readonly string _connectionString;
 
-        public EventStore(IMediator mediator,
+        public SqlServerEventStore(IMediator mediator,
             IConfiguration configuration)
         {
             _mediator = mediator;   

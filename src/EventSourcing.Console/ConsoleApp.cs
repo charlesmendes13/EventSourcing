@@ -41,10 +41,10 @@ namespace ConsoleApp
                         // Recuperando o carrinho do repositório
                         var retrievedCart = await _mediator.Send(new GetShoppingCartQuery(shoppingCart.Id));
 
-                        // Verificando se o carrinho foi recuperado corretamente
-                        _logger.LogInformation($"Customer: {retrievedCart.CustomerName}");
+                        // Mostrando os dados do carrinho recuperado
+                        _logger.LogInformation("==== Name ====");
+                        _logger.LogInformation($"CustomerName: {retrievedCart.CustomerName}");
                         _logger.LogInformation("==== Items ====");
-
                         foreach (var item in retrievedCart.Items)
                         {
                             _logger.LogInformation($"ItemName: {item}");
