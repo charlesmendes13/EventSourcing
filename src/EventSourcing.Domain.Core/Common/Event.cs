@@ -8,7 +8,7 @@
         protected Event(Guid id)
         {
             Id = id;
-            Timestamp = DateTime.Now; // Ou qualquer outro valor de timestamp que preferir
+            Timestamp = DateTime.Now;
         }
     }
 }

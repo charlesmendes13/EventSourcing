@@ -25,6 +25,7 @@ namespace EventSourcing.Infrastructure.Data.Repository
         public void Save(ShoppingCart shoppingCart)
         {
             _eventStore.SaveEvents(shoppingCart.Id, shoppingCart.GetChanges());
+
             shoppingCart.ClearChanges();
         }
     }

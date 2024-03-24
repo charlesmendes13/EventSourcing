@@ -41,13 +41,12 @@ namespace ConsoleApp
                         var retrievedCart = await _mediator.Send(new GetShoppingCartQuery(shoppingCart.Id));
 
                         // Mostrando os dados do carrinho recuperado
-                        _logger.LogInformation("==== Name ====");
+                        _logger.LogInformation("============= Name =============");
                         _logger.LogInformation($"CustomerName: {retrievedCart.CustomerName}");
-                        _logger.LogInformation("==== Items ====");
+                        _logger.LogInformation("============= Items ============");
                         foreach (var item in retrievedCart.Items)
                         {
-                            _logger.LogInformation($"ItemName: {item.ItemName}");
-                            _logger.LogInformation($"ItemName: {item.Price}");
+                            _logger.LogInformation($"ItemName: {item.ItemName} Price: {item.Price}");
                         }
                     }
                     catch (Exception ex)
