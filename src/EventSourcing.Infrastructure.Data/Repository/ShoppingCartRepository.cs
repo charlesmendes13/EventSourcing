@@ -17,10 +17,7 @@ namespace EventSourcing.Infrastructure.Data.Repository
             var events = _eventStore.GetEvents(id);
             var shoppingCart = Activator.CreateInstance(typeof(ShoppingCart), nonPublic: true) as ShoppingCart;
 
-            foreach (var @event in events)
-            {
-                shoppingCart.ApplyChange(@event);
-            }
+            shoppingCart.LoadsFromHistory(events);
 
             return shoppingCart;
         }

@@ -17,9 +17,6 @@ namespace EventSourcing.Application.CommandHandlers
         {
             var shoppingCart = new ShoppingCart(Guid.NewGuid(), request.CustomerName);
             
-            foreach (var item in request.Items)
-                shoppingCart.AddItem(Guid.NewGuid(), item);
-
             _repository.Save(shoppingCart);
 
             return Task.FromResult(shoppingCart);

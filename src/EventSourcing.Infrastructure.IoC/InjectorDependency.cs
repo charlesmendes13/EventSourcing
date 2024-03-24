@@ -25,9 +25,10 @@ namespace EventSourcing.Infrastructure.IoC
 
             container.AddTransient<IRequestHandler<GetShoppingCartQuery, ShoppingCart>, GetShoppingCartQueryHandler>();
             container.AddTransient<IRequestHandler<CreateShoppingCartCommand, ShoppingCart>, CreateShoppingCartCommandHandler>();
+            container.AddTransient<IRequestHandler<AdditemShoppingCartCommand>, AdditemShoppingCartCommandHandler>();
 
-            container.AddScoped<INotificationHandler<ShoppingCartCreatedEvent>, ShoppingCartCreatedEventHandler>();
-            container.AddScoped<INotificationHandler<ItemAddedEvent>, ItemAddedEventHandler>();
+            container.AddTransient<INotificationHandler<ShoppingCartCreatedEvent>, ShoppingCartCreatedEventHandler>();
+            container.AddTransient<INotificationHandler<ItemAddedEvent>, ItemAddedEventHandler>();
 
             // Infrastructure
 

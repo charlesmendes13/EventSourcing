@@ -6,12 +6,10 @@ namespace EventSourcing.Domain.Contracts.Commands
     public class CreateShoppingCartCommand : IRequest<ShoppingCart>
     {
         public string CustomerName { get; private set; }
-        public List<string> Items { get; private set; }
 
-        public CreateShoppingCartCommand(string customerName, List<string> items)
+        public CreateShoppingCartCommand(string customerName)
         {
             CustomerName = customerName;
-            Items = items;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace EventSourcing.Domain.AggregateModels.ShoppingCartAggregate
     public class ShoppingCart : AggregateRoot
     {
         public string CustomerName { get; private set; }
-        public List<string> Items { get; private set; } = new List<string>();
+        public List<ItemShoppingCart> Items { get; private set; } = new List<ItemShoppingCart>();
 
         protected ShoppingCart() { }
 
@@ -15,9 +15,9 @@ namespace EventSourcing.Domain.AggregateModels.ShoppingCartAggregate
             ApplyChange(new ShoppingCartCreatedEvent(id, customerName));
         }
 
-        public void AddItem(Guid id, string itemName)
+        public void AddItem(Guid id, string itemName, double price)
         {
-            ApplyChange(new ItemAddedEvent(id, itemName));
+            ApplyChange(new ItemAddedEvent(id, itemName, price));
         }
 
         protected override void Apply(Event @event)
@@ -25,11 +25,13 @@ namespace EventSourcing.Domain.AggregateModels.ShoppingCartAggregate
             switch (@event)
             {
                 case ShoppingCartCreatedEvent createdEvent:
-                    Id = createdEvent.Id;
+                    Id = createdEvent.ShoppingCartId;
                     CustomerName = createdEvent.CustomerName;
                     break;
                 case ItemAddedEvent addedEvent:
-                    Items.Add(addedEvent.ItemName);
+                    Items.Add(new ItemShoppingCart(addedEvent.ItemId,
+                        addedEvent.ItemName,
+                        addedEvent.Price));
                     break;
             }
         }

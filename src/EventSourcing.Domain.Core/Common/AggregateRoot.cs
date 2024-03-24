@@ -5,16 +5,28 @@
         public Guid Id { get; protected set; }
         private readonly List<Event> _changes = new List<Event>();
 
-        public void ApplyChange(Event @event)
+        protected void ApplyChange(Event @event) => ApplyChange(@event, true);
+
+        private void ApplyChange(Event @event, bool isNew)
         {
             Apply(@event);
-            _changes.Add(@event);
-        }        
+
+            if (isNew)
+                _changes.Add(@event);
+        }
+
+        protected abstract void Apply(Event @event);
+
+        public void LoadsFromHistory(IEnumerable<Event> history)
+        {
+            foreach (var @event in history)
+            {
+                ApplyChange(@event, false);
+            }
+        }
 
         public IEnumerable<Event> GetChanges() => _changes.AsEnumerable();
 
-        public void ClearChanges() => _changes.Clear();
-
-        protected abstract void Apply(Event @event);
+        public void ClearChanges() => _changes.Clear();  
     }
 }

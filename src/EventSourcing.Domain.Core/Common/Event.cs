@@ -2,13 +2,13 @@
 {
     public abstract class Event
     {
-        public Guid Id { get; } 
+        public Guid Id { get; protected set; }
         public DateTime Timestamp { get; }
 
-        public Event() 
+        protected Event(Guid id)
         {
-            Id = Guid.NewGuid();
-            Timestamp = DateTime.Now;
+            Id = id;
+            Timestamp = DateTime.Now; // Ou qualquer outro valor de timestamp que preferir
         }
     }
 }

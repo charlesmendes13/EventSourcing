@@ -30,13 +30,12 @@ namespace ConsoleApp
                     try
                     {
                         // Criando um novo carrinho e adicionando itens
-                        var shoppingCart = await _mediator.Send(new CreateShoppingCartCommand("Fulano de Tal",
-                            new List<string>
-                            {
-                                "Apple",
-                                "Orange",
-                                "Strawberry"
-                            }));
+                        var shoppingCart = await _mediator.Send(new CreateShoppingCartCommand("Fulano de Tal"));
+
+                        // Adicionando item ao carrinho
+                        await _mediator.Send(new AdditemShoppingCartCommand(shoppingCart.Id, "Orange", 1.99));
+                        await _mediator.Send(new AdditemShoppingCartCommand(shoppingCart.Id, "Strawberry", 5.99));
+                        await _mediator.Send(new AdditemShoppingCartCommand(shoppingCart.Id, "Apple", 2.49));
 
                         // Recuperando o carrinho do repositório
                         var retrievedCart = await _mediator.Send(new GetShoppingCartQuery(shoppingCart.Id));
@@ -47,7 +46,8 @@ namespace ConsoleApp
                         _logger.LogInformation("==== Items ====");
                         foreach (var item in retrievedCart.Items)
                         {
-                            _logger.LogInformation($"ItemName: {item}");
+                            _logger.LogInformation($"ItemName: {item.ItemName}");
+                            _logger.LogInformation($"ItemName: {item.Price}");
                         }
                     }
                     catch (Exception ex)
